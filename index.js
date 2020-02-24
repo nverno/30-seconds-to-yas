@@ -1,5 +1,9 @@
+const getSnippets = require('./lib/getSnippets'),
+      cli = require('./lib/cli'),
+      writeSnippets = require('./lib/writeSnippets');
+
 module.exports = {
-  // extract,
-  // initialize: init,
-  // makeSnippet: create,
+  getSnippets,
+  writeSnippets,
+  cli
 };

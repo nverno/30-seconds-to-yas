@@ -3,7 +3,9 @@
     {
       "name": "30-second-to-yas",
       "type": "node",
-      "program": "node"
+      "program": "node",
+      "args": "./bin/yas-convert.js",
+      "inspect-brk": true
     }
   ]
 }

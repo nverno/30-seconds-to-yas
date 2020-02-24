@@ -1,0 +1,9 @@
+{
+  "configurations": [
+    {
+      "name": "30-second-to-yas",
+      "type": "node",
+      "program": "node"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+travis.log
+.travis.yml
+test/*
+snippets/*
+snippet_data/*
+.travis/*
+.github/*
+package-lock.json
+yarn.lock
+GPATH
+GSYMS
+GRTAGS
+GTAGS
+TAGS

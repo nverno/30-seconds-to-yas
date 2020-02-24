@@ -1,0 +1,33 @@
+{
+  "name": "30-seconds-to-yas",
+  "version": "0.0.1",
+  "description": "Convert snippets to yasnippet format",
+  "main": "index.js",
+  "sideEffects": false,
+  "scripts": {
+    "linter": "node ./scripts/lint.js",
+    "yas": "node ./scripts/convert-yas.js",
+    "test": "jest --verbose --coverage --testPathIgnorePatterns=\".cache\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nverno/30-seconds-to-yas.git"
+  },
+  "keywords": [
+    "snippets",
+    "yasnippet"
+  ],
+  "author": "Noah Peart <noah.v.peart@gmail.com> (https://www.github.com/nverno)",
+  "license": "WTFPL",
+  "bugs": {
+    "url": "https://github.com/nverno/30-seconds-to-yas/issues"
+  },
+  "homepage": "https://github.com/nverno/30-seconds-to-yas#readme",
+  "dependencies": {
+    "argparse": "^1.0.10"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "jest": "^25.1.0"
+  }
+}

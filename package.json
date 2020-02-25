@@ -1,11 +1,10 @@
 {
-  "name": "30-seconds-to-yas",
-  "version": "0.0.1",
+  "name": "convert-30s-snippets-to-yasnippets",
+  "version": "0.1.0",
   "description": "Convert 30-second snippets to yasnippet format",
   "main": "index.js",
   "sideEffects": false,
   "scripts": {
-    "yas": "./bin/convert-yas.js",
     "test": "jest"
   },
   "bin": {

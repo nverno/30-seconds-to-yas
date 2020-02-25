@@ -12,3 +12,6 @@ GSYMS
 GRTAGS
 GTAGS
 TAGS
+.indium*
+.dir-*
+.env.dev*

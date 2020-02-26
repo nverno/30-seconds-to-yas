@@ -5,7 +5,8 @@
   "main": "index.js",
   "sideEffects": false,
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "convert": "node ./bin/yas-convert.js"
   },
   "bin": {
     "yas-convert": "./bin/yas-convert.js"

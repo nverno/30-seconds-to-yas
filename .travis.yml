@@ -8,6 +8,3 @@ before_install:
   - git fetch --depth=10000
 script:
   - npm run extractor
-after_success:
-  - chmod +x .travis/push.sh
-  - .travis/push.sh

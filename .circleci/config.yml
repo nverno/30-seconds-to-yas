@@ -1,5 +1,5 @@
 # By default, this will use docker image circleci/node:latest
-# And cache npm dependencies by branch + checksum "package.json"
+# And cache npm dependencies by branch + checksum of "package.json"
 #
 # Dockerfiles:
 # https://github.com/CircleCI-Public/circleci-dockerfiles/master/node/images/13.8.0-stretch/Dockerfile
@@ -45,7 +45,7 @@ workflows:
           requires:
             - build
 
-  # Can trigger a rebuild of gh-pages when master is updated
+  # deploy currently set to just run on master => could rebuild gh-pages
   build-deploy:
     jobs:
       - build
@@ -80,21 +80,8 @@ jobs:
       - codecov/upload:
           path: test-coverage-path
 
-  # coverage:
-  #   executor:
-  #     name: node/default
-  #   steps:
-  #     - *attach_workspace
-  #     - checkout
-  #     - node/with-cache:
-  #         steps:
-  #           - run: npm run coverage
-  #     - run:
-  #         name: Upload codecov.io data
-  #         command: bash <(curl -s https://codecov.io/bash)
-  #         when: always
-
-  deploy:                                         # deploy to gh-pages
+  # Doesn't currently do anything
+  deploy:
     executor: node/default
     steps:
       - *attach_workspace

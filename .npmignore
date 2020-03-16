@@ -7,6 +7,7 @@ snippet_data/*
 .github/*
 package-lock.json
 yarn.lock
+.circleci/
 GPATH
 GSYMS
 GRTAGS

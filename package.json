@@ -6,6 +6,7 @@
   "sideEffects": false,
   "scripts": {
     "test": "jest",
+    "coverage": "codecov",
     "convert": "node ./bin/yas-convert.js"
   },
   "bin": {

@@ -6,11 +6,11 @@ CLIPBOARD ?= xclip -sel clip                      # command to copy to clipboard
 REPO_URL  := $(shell git config --get remote.origin.url)
 REPO_NAME := $(shell ${AWK} -F'com/' '{print $$2}' <<< ${REPO_URL})
 
-NPM_REGISTY   =  registry.npmjs.org
-NPM_LOG_LEVEL =  error
+NPM_REGISTY   = registry.npmjs.org
+NPM_LOG_LEVEL = error
 
 CI_CONFIG =  ${CURDIR}/.circleci/config.yml
-CI_JOB    ?= build-and-test
+CI_JOB    ?= build
 
 .PHONY: all 
 all: help ## No default targets
@@ -18,8 +18,8 @@ all: help ## No default targets
 
 .PHONY: npm-token
 npm-token: ## Copy current npmjs registry authToken to clipboard
-	@( set -eo pipefail; yarn config list --json | tail -n1 | \
-	${JQ} -r ".data[\"//${NPM_REGISTY}/:_authToken\"]" | \
+	@( set -eo pipefail; yarn config list --json | tail -n1 |          \
+	${JQ} -r ".data[\"//${NPM_REGISTY}/:_authToken\"]" |               \
 	${CLIPBOARD} && echo "Copied authToken to clipboard" ) 2>/dev/null \
 	|| { echo "Failed to copy authToken" && true; } # don't fail either way
 
@@ -45,12 +45,12 @@ dump-ci: ## Dump the result of processing circleci setup to stdout
 check-travis: ## validate .travis.yml (requires 'gem install travis')
 	@travis lint $(CURDIR)/.travis.yml
 
-clean: ## Remove package-lock + any directories created during tests
-	$(RM) -r coverage package-lock.json
+clean: ## Remove build/test/deploy directories
+	$(RM) -r coverage *~ build dist
 
 .PHONY: clean-all
 clean-all: clean ## Remove all caches + lock files
-	$(RM) -r node_modules yarn.lock .pnp/ .pnp.js
+	$(RM) -r node_modules package-lock.json yarn.lock .pnp/ .pnp.js
 
 .PHONY: help
 help:  ## Display this help message

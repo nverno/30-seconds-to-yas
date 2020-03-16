@@ -15,17 +15,20 @@
 # https://circleci.com/docs/2.0/executor-types/#using-gpus
 
 # Plugins that provide some helpful commands: https://circleci.com/orbs/
-# https://circleci.com/orbs/registry/orb/circleci/slack
 version: 2.1
 
 orbs:
+  # https://circleci.com/orbs/registry/orb/circleci/node
   node: circleci/node@1.1.6
+  # https://circleci.com/orbs/registry/orb/circleci/codecov
+  codecov: circleci/codecov@0.0.5
+  # https://circleci.com/orbs/registry/orb/circleci/slack
   slack: circleci/slack@3.4.2
 
 # Yaml references
 references:
   workspace_root: &workspace_root
-    ~/workspace
+    ~/project
   attach_workspace: &attach_workspace
     attach_workspace:
       at: *workspace_root
@@ -34,66 +37,70 @@ references:
 workflows:
   version: 2
 
-  build-and-test:
+  # Install node packages, run tests, report coverage
+  build-test:
     jobs:
-      - js_setup
-      - test_source:
+      - build
+      - test:
           requires:
-            - js_setup
-      - coverage:
-          requires:
-            - js_setup
+            - build
 
   # Can trigger a rebuild of gh-pages when master is updated
   build-deploy:
     jobs:
-      - js_setup
+      - build
       - deploy:
           requires:
-            - js_setup
+            - build
           filters:
             branches:
               only: master
 
-
 jobs:
-  js_setup:
-    executor: # this executor is from the node orb
-      name: node/default
+  build:
+    executor: node/default
     steps:
       - *attach_workspace
-      - checkout                     # get the code from GitHub
-      - node/with-cache:             # orb command => restoring/saving a cache
-          cache-key: "package.json"  # change to yarn.lock?
-          cache-version: v1          # update to invalidate cache
+      - checkout                       # get the code from GitHub
+      - node/with-cache:               # orb command => restoring/saving a cache
           steps:
             - run: echo "loglevel=error" >> .npmrc
             - run: npm install
 
-  test_source:                                    # run basic tests
-    executor:
-      name: node/default
+  test:
+    executor: node/default
     steps:
       - *attach_workspace
       - checkout
-      - run: npm run test
+      - node/with-cache:
+          steps:
+            - run: ls -all
+            - run: npm run test
+            - run: npm run coverage
+      - codecov/upload:
+          path: test-coverage-path
 
-  coverage:
-    executor:
-      name: node/default
-    steps:
-      - *attach_workspace
-      - checkout
-      - run: npm run coverage
-      - run:
-          name: Upload codecov.io data
-          command: bash <(curl -s https://codecov.io/bash)
-          when: always
+  # coverage:
+  #   executor:
+  #     name: node/default
+  #   steps:
+  #     - *attach_workspace
+  #     - checkout
+  #     - node/with-cache:
+  #         steps:
+  #           - run: npm run coverage
+  #     - run:
+  #         name: Upload codecov.io data
+  #         command: bash <(curl -s https://codecov.io/bash)
+  #         when: always
 
   deploy:                                         # deploy to gh-pages
-    executor:
-      name: node/default
+    executor: node/default
     steps:
       - *attach_workspace
       - checkout
-      - run: npm run deploy
+      - node/with-cache:
+          steps:
+            - run:
+                name: Deploying app to gh-pages
+                command: npm run deploy

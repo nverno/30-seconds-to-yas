@@ -6,7 +6,7 @@
   "sideEffects": false,
   "scripts": {
     "test": "jest",
-    "coverage": "jest && codecov",
+    "coverage": "codecov",
     "convert": "node ./bin/yas-convert.js",
     "deploy": "echo deploying!"
   },

@@ -61,8 +61,8 @@ jobs:
     executor: # this executor is from the node orb
       name: node/default
     steps:
-      - checkout                     # get the code from GitHub
       - *attach_workspace
+      - checkout                     # get the code from GitHub
       - node/with-cache:             # orb command => restoring/saving a cache
           cache-key: "package.json"  # change to yarn.lock?
           cache-version: v1          # update to invalidate cache
@@ -75,16 +75,16 @@ jobs:
     executor:
       name: node/default
     steps:
-      - checkout
       - *attach_workspace
-      - run: npm test
+      - checkout
+      - run: npm run test
 
   coverage:
     executor:
       name: node/default
     steps:
-      - checkout
       - *attach_workspace
+      - checkout
       - run: npm run coverage
       - run: bash <(curl -s https://codecov.io/bash)
 
@@ -92,6 +92,6 @@ jobs:
     executor:
       name: node/default
     steps:
-      - checkout
       - *attach_workspace
+      - checkout
       - run: npm run deploy

@@ -6,8 +6,9 @@
   "sideEffects": false,
   "scripts": {
     "test": "jest",
-    "coverage": "codecov",
-    "convert": "node ./bin/yas-convert.js"
+    "coverage": "jest && codecov",
+    "convert": "node ./bin/yas-convert.js",
+    "deploy": "echo deploying!"
   },
   "bin": {
     "yas-convert": "./bin/yas-convert.js"
@@ -36,6 +37,11 @@
     "babel-jest": "^25.1.0",
     "codecov": "^3.6.5",
     "eslint": "^6.8.0",
+    "istanbul": "^0.4.5",
     "jest": "^25.1.0"
+  },
+  "jest": {
+    "coverageDirectory": "./coverage/",
+    "collectCoverage": true
   }
 }

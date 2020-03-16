@@ -69,7 +69,6 @@ jobs:
           steps:
             - run: echo "loglevel=error" >> .npmrc
             - run: npm install
-            - run: npm install codecov
 
   test_source:                                    # run basic tests
     executor:
@@ -86,7 +85,10 @@ jobs:
       - *attach_workspace
       - checkout
       - run: npm run coverage
-      - run: bash <(curl -s https://codecov.io/bash)
+      - run:
+          name: Upload codecov.io data
+          command: bash <(curl -s https://codecov.io/bash)
+          when: always
 
   deploy:                                         # deploy to gh-pages
     executor:

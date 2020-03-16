@@ -67,8 +67,9 @@ jobs:
           cache-key: "package.json"  # change to yarn.lock?
           cache-version: v1          # update to invalidate cache
           steps:
-            - run: npm install --loglevel=error
-            - run: npm install codecov --loglevel=error
+            - run: echo "loglevel=error" >> .npmrc
+            - run: npm install
+            - run: npm install codecov
 
   test_source:                                    # run basic tests
     executor:
@@ -84,7 +85,7 @@ jobs:
     steps:
       - checkout
       - *attach_workspace
-      - run: npm run codecov
+      - run: npm run coverage
       - run: bash <(curl -s https://codecov.io/bash)
 
   deploy:                                         # deploy to gh-pages

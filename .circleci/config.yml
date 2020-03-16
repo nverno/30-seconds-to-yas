@@ -68,7 +68,7 @@ jobs:
           cache-version: v1          # update to invalidate cache
           steps:
             - run: npm install --loglevel=error
-            - run: npm install -g codecov --loglevel=error
+            - run: npm install codecov --loglevel=error
 
   test_source:                                    # run basic tests
     executor:
@@ -82,8 +82,8 @@ jobs:
       name: node/default
     steps:
       - *attach_workspace
-      - run: npm install -g codecov
-      - run: codecov
+      - run: npm install codecov
+      - run: npm run codecov
       - run: bash <(curl -s https://codecov.io/bash)
 
   deploy:                                         # deploy to gh-pages
